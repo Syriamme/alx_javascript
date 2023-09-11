@@ -8,15 +8,15 @@ let myObject = {
   };
   console.log(myObject);
   
-  myObject.increment = () => {
+  myObject.incr = () => {
     myObject.value++;
   };
   
-  myObject.increment();
+  myObject.incr();
   console.log(myObject);
 
-  myObject.increment();
+  myObject.incr();
   console.log(myObject);
 
-  myObject.increment();
+  myObject.incr();
   console.log(myObject);
