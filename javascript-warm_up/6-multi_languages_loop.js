@@ -1,3 +1,4 @@
+#!/usr/bin/node
 // a script to print 3 lines using a string array
 
 const lines = [
