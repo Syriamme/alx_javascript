@@ -3,43 +3,29 @@
 
 const request = require('request');
 
-async function countMoviesWithWedgeAntilles(apiUrl) {
-  try {
-    const response = await new Promise((resolve, reject) => {
-      request(apiUrl, (error, response, body) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(response);
-        }
-      });
-    });
-
-    if (response.statusCode === 200) {
-      const data = JSON.parse(response.body);
-      const films = data.results;
-      const characterId = 18;
-      let count = 0;
-
-      for (const movie of films) {
-        if (movie.characters.some((character) => character.endsWith(`/${characterId}/`))) {
-          count++;
-        }
-      }
-
-      console.log(`Number of movies with Wedge Antilles: ${count}`);
-    } else {
-      console.error(`HTTP Status Code: ${response.statusCode}`);
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-if (process.argv.length < 3) {
-  console.error('Please provide the Star Wars API URL as an argument.');
+if (process.argv.length !== 3) {
+  console.error('Usage: node 2-starwars_count.js <API_URL>');
   process.exit(1);
 }
 
 const apiUrl = process.argv[2];
-countMoviesWithWedgeAntilles(apiUrl);
+
+request(apiUrl, (error, response, body) => {
+  if (error) {
+    console.error('Error:', error);
+    process.exit(1);
+  }
+
+  if (response.statusCode !== 200) {
+    console.error('API request failed with status code:', response.statusCode);
+    process.exit(1);
+  }
+
+  const filmsData = JSON.parse(body);
+
+  const filmsWithWedge = filmsData.results.filter((film) =>
+    film.characters.includes('https://swapi-api.alx-tools.com/api/people/18/')
+  );
+
+  console.log(filmsWithWedge.length);
+});
