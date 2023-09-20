@@ -1,6 +1,7 @@
 #!/usr/bin/node
 // Script printing the number of movies with character ID 18
 
+
 const request = require('request');
 
 if (process.argv.length !== 3) {
@@ -22,9 +23,9 @@ request(apiUrl, (error, response, body) => {
   }
 
   const filmsData = JSON.parse(body);
-
+  const characterUrl = 'https://swapi-api.alx-tools.com/api/people/18/';
   const filmsWithWedge = filmsData.results.filter((film) =>
-    film.characters.includes('https://swapi-api.alx-tools.com/api/people/18/')
+    film.characters.includes(characterUrl)
   );
 
   console.log(filmsWithWedge.length);
