@@ -3,7 +3,6 @@
 
 const request = require('request');
 const apiUrl = process.argv[2];
-const characterUrl = 'https://swapi-api.alx-tools.com/api/people/18/';
 
 request(apiUrl, (error, response, body) => {
   if (error) {
@@ -15,6 +14,7 @@ request(apiUrl, (error, response, body) => {
     console.error('API request failed with status code:', response.statusCode);
     process.exit(1);
   }
+  const characterUrl = 'https://swapi-api.alx-tools.com/api/people/18/';
   const filmsData = JSON.parse(body).results;
   const mvWithWedge = filmsData.reduce((count, movie) => {
     const withWedge = movie.characters.some((character) => character === characterUrl);
