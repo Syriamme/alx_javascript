@@ -1,5 +1,5 @@
 #!/usr/bin/node
-
+//a script that computes the number of tasks completed by user id
 
 const request = require('request');
 
@@ -10,16 +10,18 @@ if (process.argv.length < 3) {
 
 request(process.argv[2], function (error, response, body) {
   if (error) {
-    console.log(error);
+    console.log('Error:', error);
     return;
   }
 
   if (response.statusCode !== 200) {
-    console.log(response.statusCode);
+    console.log('Error: Received status code', response.statusCode);
     return;
   }
 
   const todos = JSON.parse(body);
+
+
   const completed = {};
 
 
@@ -32,6 +34,7 @@ request(process.argv[2], function (error, response, body) {
       }
     }
   });
+
 
   for (const userId in completed) {
     console.log(`User ID ${userId}: ${completed[userId]} completed tasks`);
