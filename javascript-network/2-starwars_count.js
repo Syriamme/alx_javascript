@@ -1,7 +1,6 @@
 #!/usr/bin/node
 // Script printing the number of movies with character ID 18
 
-
 const request = require('request');
 
 if (process.argv.length !== 3) {
