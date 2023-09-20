@@ -23,9 +23,9 @@ request(apiUrl, (error, response, body) => {
 
   const filmsData = JSON.parse(body);
   const characterUrl = 'https://swapi-api.alx-tools.com/api/people/18/';
-  const filmsWithWedge = filmsData.results.filter((film) =>
-    film.characters.includes(characterUrl)
-  );
+  const filmsWithWedge = filmsData.results.reduce((count, film) => {
+    return film.characters.includes(characterUrl) ? count + 1 : count;
+  }, 0);
 
-  console.log(filmsWithWedge.length);
+  console.log(filmsWithWedge);
 });
