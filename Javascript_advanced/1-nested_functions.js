@@ -1,3 +1,4 @@
+#!usr/bin/node
 //Closure Scope Chain
 
 const globalVariable = 'Welcome';

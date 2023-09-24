@@ -1,3 +1,4 @@
+#!usr/bin/node
 // Lexical scoping and welcome message
 
 function welcome(firstName, lastName) {
