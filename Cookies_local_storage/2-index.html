@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login to the Website</h1>
+    <input type="text" id="firstname" placeholder="First Name">
+    <input type="text" id="email" placeholder="Email">
+    <button onclick="setCookies()">Log me in</button>
+    <h1>Cookies</h1>
+    <button onclick="showCookies()">Show the cookies</button>
+
+    <script>
+        function setCookies() {
+            let firstNameValue = document.getElementById("firstname").value;
+            let emailValue = document.getElementById("email").value;
+            let expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 10);
+
+            
+            document.cookie = "firstname=" + firstNameValue + "; expires=" + expirationDate.toUTCString();
+            document.cookie = "email=" + emailValue + "; expires=" + expirationDate.toUTCString();
+        }
+
+        function getCookie(name) {
+            let cookiesArray = document.cookie.split(';');
+            for (let i = 0; i < cookiesArray.length; i++) {
+                let cookie = cookiesArray[i];
+                let cookieParts = cookie.split('=');
+                let cookieName = cookieParts[0].trim();
+                let cookieValue = cookieParts[1];
+                if (cookieName === name) {
+                    return cookieValue;
+                }
+            }
+            return "";
+        }
+
+        function showCookies() {
+            let emailValue = getCookie("email");
+            let firstNameValue = getCookie("firstname");
+            
+            let paragraph = document.createElement("p");
+            paragraph.innerHTML = "Email: " + emailValue + " - Firstname: " + firstNameValue;
+            document.body.appendChild(paragraph);
+        }
+    </script>
+</body>
+</html>
