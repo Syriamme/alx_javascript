@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <div id="welcomeMessageContainer"></div>
+    <div id="loginForm" style="display: none;">
+        <h2>Login to the Website</h2>
+        <input type="text" id="firstname" placeholder="First Name">
+        <input type="text" id="email" placeholder="Email">
+        <button onclick="setCookies()">Log me in</button>
+    </div>
+
+    <script>
+        function setCookies() {
+            let firstNameValue = document.getElementById("firstname").value;
+            let emailValue = document.getElementById("email").value;
+            let expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 10);
+            document.cookie = "firstname=" + firstNameValue + "; expires=" + expirationDate.toUTCString();
+            document.cookie = "email=" + emailValue + "; expires=" + expirationDate.toUTCString();
+            showWelcomeMessageOrForm();
+        }
+
+        function getCookie(name) {
+            let cookiesArray = document.cookie.split(';');
+            for (let i = 0; i < cookiesArray.length; i++) {
+                let cookie = cookiesArray[i];
+                let cookieParts = cookie.split('=');
+                let cookieName = cookieParts[0].trim();
+                let cookieValue = cookieParts[1];
+                if (cookieName === name) {
+                    return cookieValue;
+                }
+            }
+            return "";
+        }
+
+        function showForm() {
+            let loginForm = document.getElementById("loginForm");
+            loginForm.style.display = "block";
+        }
+
+        function hideForm() {
+            let loginForm = document.getElementById("loginForm");
+            loginForm.style.display = "none";
+        }
+
+        function deleteCookiesAndShowForm() {
+            const cookieNamesToDelete = ["firstname", "email"];
+            cookieNamesToDelete.forEach(cookieName => {
+                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+            });
+            showForm();
+        }
+
+        function createWelcomeMessage(firstName) {
+            let welcomeMessageContainer = document.getElementById("welcomeMessageContainer");
+            welcomeMessageContainer.innerHTML = "";
+
+            let welcomeMessage = document.createElement("h1");
+            welcomeMessage.textContent = `Welcome ${firstName} `;
+            welcomeMessageContainer.appendChild(welcomeMessage);
+
+            let logoutLink = document.createElement("a");
+            logoutLink.textContent = "(logout)";
+            logoutLink.style.fontStyle = "italic";
+            logoutLink.style.marginLeft = "10px";
+            logoutLink.href = "javascript:void(0);";
+            logoutLink.onclick = deleteCookiesAndShowForm;
+            welcomeMessageContainer.appendChild(logoutLink);
+        }
+
+        function showWelcomeMessageOrForm() {
+            let firstName = getCookie("firstname");
+            let welcomeMessageContainer = document.getElementById("welcomeMessageContainer");
+            let loginForm = document.getElementById("loginForm");
+
+            if (firstName) {
+                createWelcomeMessage(firstName);
+                if (loginForm) {
+                    loginForm.style.display = "none";
+                }
+            } else {
+                welcomeMessageContainer.innerHTML = "";
+                showForm();
+            }
+        }
+
+        showWelcomeMessageOrForm();
+    </script>
+</body>
+</html>
