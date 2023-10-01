@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script>
+        // Check if session storage is available
+        function isSessionStorageAvailable() {
+            try {
+                sessionStorage.setItem('test', 'test');
+                sessionStorage.removeItem('test');
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Array of available items
+        const availableItems = ["Shampoo", "Soap", "Sponge", "Water"];
+
+        // Function to add an item to the cart
+        function addItemToCart(item) {
+            sessionStorage.setItem(item, 'true');
+            displayCart();
+        }
+
+        // Function to create the store and display available items
+        function createStore() {
+            const ul = document.createElement('ul');
+            document.body.appendChild(ul);
+
+            availableItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.addEventListener('click', () => addItemToCart(item));
+                ul.appendChild(li);
+            });
+        }
+
+        // Function to display the cart
+        function displayCart() {
+            const cartItems = Object.keys(sessionStorage);
+            const cartMessage = document.createElement('p');
+
+            if (cartItems.length > 0) {
+                cartMessage.textContent = `You previously had ${cartItems.length} items in your cart.`;
+                document.body.appendChild(cartMessage);
+            } else {
+                // If session storage is empty, remove the cart message if it exists
+                const existingCartMessage = document.querySelector('p');
+                if (existingCartMessage) {
+                    existingCartMessage.remove();
+                }
+            }
+        }
+
+        // Check if session storage is available
+        if (isSessionStorageAvailable()) {
+            createStore();
+            displayCart();
+        } else {
+            alert('Sorry, your browser does not support Session storage. Try again with a better one.');
+        }
+    </script>
+</body>
+</html>
